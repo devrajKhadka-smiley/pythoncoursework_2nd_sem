@@ -7,31 +7,51 @@ print("Kamal Pokhari, kathmandu, Nepal \t\t\t\t\t\t\t\t\t\t\t Phone: +977 982152
 
 # define the function of buying section
 def display():
-    print(f"{'=' * 100}\n{' ' * 35}ABC ENTERPRISES STOCK\n{'=' * 100}\n")
-
-    print("=" * 110)
-    print("|S.N| \t|Laptop Name|\t\t|CompanyName|\t\t |Price|\t\t|Quantity|\t|Processor|\t\t\t|Graphic|")
-    print("=" * 110)
-
     file = open("stock.txt", "r")
-    a = 1
+    print(f"{'=' * 100}\n{' ' * 35}ABC ENTERPRISES STOCK\n{'=' * 100}\n")
+    temp = []
+
     for line in file:
-        print(a, "|\t\t|" + line.replace(",", "|\t\t|"))
-        print("-" * 110)
-        a = a + 1
-    print("=" * 110)
+        line = line.replace("\n", '')
+        temp.append(line.split(","))
+
+    print("Name" + (" " * 15) + "|Brand" + (" " * 12) + "|Price" + (" " * 13) + "|Quantity" + (
+            " " * 10) + "|Processor" + (" " * 9) + "|Graphic Card")
+    print("=" * 100)
+
+    for i in range(len(temp)):
+        for j in range(len(temp[i])):
+            space: int = 18 - len(temp[i][j])
+            print(temp[i][j] + (space * ' '), end="")
+        print("\n")
+        print("-" * 100)
     file.close()
+    print("=" * 100)
 
 
 # defining the function of selling section
 def sell():
-    sell_laptop = input("Which laptop would you like to buy?")
+    display()
+    with open('laptops.txt', 'r') as file:
+        lines = file.readlines()
+        laptops = [line.strip().split(',') for line in lines]
+    distributor_name = input("Enter your name:").capitalize()
+    laptop_name = input("Enter name of laptop:").lower()
+    brand_name = input("Enter brand name of laptop:").lower()
+    quantity = int(input("Enter Quantity:"))
 
 
 # defining the function of selling section
 def buy():
-    display()
-    buy_laptop = input("Which laptop would you like to buy?").lower()
+    # buy_laptop = input("Which laptop would you like to buy?").lower()
+    with open('stock.txt', 'r') as file:
+        lines = file.readlines()
+        laptops = [line.strip().split(',') for line in lines]
+
+    laptop_name = input("Enter name of laptop:").lower()
+    brand_name = input("Enter brand name of laptop:").lower()
+    customer_name = input("Enter your name:").capitalize()
+    quantity = int(input("Enter Quantity:"))
 
 
 # taking among 2 input from the user

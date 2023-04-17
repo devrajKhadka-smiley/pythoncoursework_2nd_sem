@@ -1,0 +1,40 @@
+def display():
+    print(f"{'=' * 100}\n{' ' * 35}ABC ENTERPRISES STOCK\n{'=' * 100}\n")
+
+    print("=" * 110)
+    print("|S.N| \t|Laptop Name|\t\t|CompanyName|\t\t |Price|\t\t|Quantity|\t|Processor|\t\t\t|Graphic|")
+    print("=" * 110)
+
+    file = open("stock.txt", "r")
+    a = 1
+    for line in file:
+        print(a, "|\t\t|" + line.replace(",", "|\t\t|"))
+        print("-" * 110)
+        a = a + 1
+    print("=" * 110)
+    file.close()
+
+
+# defining the function of selling section
+def sell():
+    sell_laptop = input("Which laptop would you like to buy?")
+
+
+# defining the function of selling section
+def buy():
+    display()
+    buy_laptop = input("Which laptop would you like to buy?").lower()
+
+
+# taking among 2 input from the user
+option = input("Do you want to buy/sell laptop? ").lower()
+if option == "buy":
+    buy()
+
+elif option == "sell":
+    # option for selling the laptop
+    sell()
+
+else:
+    # if except of buy/sell other input is taken.
+    print("Service not available!")
