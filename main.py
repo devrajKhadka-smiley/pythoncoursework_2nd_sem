@@ -1,10 +1,14 @@
 import datetime
+import sys
 
 # welcome to the store message
 print(f"{'-' * 100}\n{' ' * 35}WELCOME TO ABC ENTREPRISES\n{'-' * 100}\n")
 print("Kamal Pokhari, kathmandu, Nepal \t\t\t\t\t\t\t\t\t\t\t Phone: +977 9821526347")
 
 
+# user input function for sale and buy
+# update stock function,2 for sales and buy
+# invoice generation function
 # define the function of buying section
 def display():
     file = open("stock.txt", "r")
@@ -15,8 +19,8 @@ def display():
         line = line.replace("\n", '')
         temp.append(line.split(","))
 
-    print("Name" + (" " * 15) + "|Brand" + (" " * 12) + "|Price" + (" " * 13) + "|Quantity" + (
-            " " * 10) + "|Processor" + (" " * 9) + "|Graphic Card")
+    print("Name" + (" " * 15) + "|Brand" + (" " * 12) + "|Price" + (" " * 11) + "|Quantity" + (
+            " " * 9) + "|Processor" + (" " * 7) + "|Graphic Card")
     print("=" * 100)
 
     for i in range(len(temp)):
@@ -27,42 +31,50 @@ def display():
         print("-" * 100)
     file.close()
     print("=" * 100)
+    print(temp)
+    return temp
 
 
 # defining the function of selling section
+def order():
+    temp = display()
+    price = 0
+    order1 = input("what would u like to order? ").lower()
+    quantity = int(input("Ënter the quantity: "))
+    for i in range(len(temp)):
+        for j in range(len(temp[i])):
+            if order1 == temp[i][0].lower():
+                temp[i][3] = str(int(temp[i][3]) + quantity)
+                price = int(temp[i][2]) * quantity
+
+            break
+
+    with open("stock.txt", "w") as file:
+        for i in range(len(temp)):
+            for j in range(len(temp[i])):
+                file.write(temp[i][j])
+                if j != 5:
+                    file.write(", ")
+            file.write("\n")
+
+    return price
+
 def sell():
     display()
-    with open('laptops.txt', 'r') as file:
-        lines = file.readlines()
-        laptops = [line.strip().split(',') for line in lines]
-    distributor_name = input("Enter your name:").capitalize()
-    laptop_name = input("Enter name of laptop:").lower()
-    brand_name = input("Enter brand name of laptop:").lower()
-    quantity = int(input("Enter Quantity:"))
-
-
-# defining the function of selling section
-def buy():
-    # buy_laptop = input("Which laptop would you like to buy?").lower()
     with open('stock.txt', 'r') as file:
         lines = file.readlines()
-        laptops = [line.strip().split(',') for line in lines]
-
-    laptop_name = input("Enter name of laptop:").lower()
-    brand_name = input("Enter brand name of laptop:").lower()
-    customer_name = input("Enter your name:").capitalize()
-    quantity = int(input("Enter Quantity:"))
 
 
 # taking among 2 input from the user
-option = input("Do you want to buy/sell laptop? ").lower()
-if option == "buy":
-    buy()
-
+option = input("Do you want to order/sell laptop? ").lower()
+if option == "order":
+    priceValue = order()
+    print(priceValue)
 elif option == "sell":
     # option for selling the laptop
     sell()
 
 else:
     # if except of buy/sell other input is taken.
-    print("Service not available!")
+    print("Sorry Admin! Option not available!")
+
