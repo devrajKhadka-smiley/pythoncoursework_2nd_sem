@@ -68,6 +68,7 @@ def order():
                 if j != 5:
                     file.write(",")
             file.write("\n")
+
     return price
 
 
@@ -83,6 +84,7 @@ def sell():
     while True:
         try:
             quantity = int(input("How many laptop you want to sell? "))
+
         except ValueError:
             print("Only numbering value is available")
         else:
@@ -97,7 +99,7 @@ def sell():
             temp[i][3] = str(int(temp[i][3]) - quantity)
             price = int(temp[i][2].replace("$", "")) * quantity
             c = 1
-            sales_invoice(order1, brand_name, customer_name, quantity)
+            sales_invoice(order1, brand_name, customer_name, quantity, price)
             break
     if c == 0:
         print("item is not available")
@@ -109,10 +111,10 @@ def sell():
                 if j != 5:
                     file.write(",")
             file.write("\n")
-    return order1, brand_name, customer_name, quantity
+    return order1, brand_name, customer_name, quantity, price
 
 
-def sales_invoice(order1, brand_name, customer_name, quantity):
+def sales_invoice(order1, brand_name, customer_name, quantity, price):
     date = x.strftime("%Y-%m-%d")
     time = x.strftime("%H-%M-%S")
     _ = open(f"sell_invoice({date}{time}).txt", 'x')
@@ -131,10 +133,12 @@ def sales_invoice(order1, brand_name, customer_name, quantity):
         file.write(f"quantity: {quantity}\n")
         file.write(f"{'=' * 35}\n")
 
-        file.write("Total Amount : \n")
-        file.write("Vat Amount: \n")
-        file.write("Shipping Amount: \n")
-        file.write(f"{'=' * 35}\n")
+        file.write(f"Total Amount :{price} ")
+        s = 200
+        file.write(f"Shipping Amount: {s}")
+        file.write(f"=" * 35)
+        d = price + s
+        file.write(f"Total Amount: {d}")
 
         file.write("Total Amount: \n")
 
@@ -155,12 +159,69 @@ def sales_invoice(order1, brand_name, customer_name, quantity):
         print(f"quantity: {quantity}")
         print(f"=" * 35)
 
-        print("Total Amount : ")
-        print("Vat Amount: ")
-        print("Shipping Amount: ")
+        print(f"Total Amount :{price} ")
+        s = 200
+        print(f"Shipping Amount: {s}")
+        print(f"=" * 35)
+        d = price + s
+        print(f"Total Amount: {d}")
+
+        print(f"{'=' * 35}\n")
+        print(f"\t\t\tThank You!")
+        print(f"{'=' * 35}\n")
+
+
+def order_invoice(order1, brand_name, customer_name, quantity, price):
+    date = x.strftime("%Y-%m-%d")
+    time = x.strftime("%H-%M-%S")
+    _ = open(f"Order_Invoice({date}{time}).txt", 'x')
+
+    with open(f"Order_Invoice({date}{time}).txt", 'w') as file:
+        file.write(f"{'=' * 35}\n")
+        file.write(f"\t\t\t\t\t Order INVOICE\n")
+        file.write(f"\t\tABC ENTERPRISES\n")
+        file.write(f"\t\t\t\tDate: {date}\n")
+        file.write(f"\t\t\t\tTime:{time}\n")
+        file.write(f"{'=' * 35}\n")
+
+        file.write(f"Distributer Name: {customer_name}\n")
+        file.write(f"Laptop Name: {order1} \n")
+        file.write(f"Brand Name: {brand_name}\n")
+        file.write(f"quantity: {quantity}\n")
+        file.write(f"{'=' * 35}\n")
+
+        file.write(f"Total Amount :{price} ")
+        vat = 0.13 * 100
+        file.write(f"VAT Amount: {vat}")
+        file.write(f"=" * 35)
+        d = price + vat * price
+        file.write(f"Total Amount: {d}")
+
+        file.write("Total Amount: \n")
+
+        file.write(f"{'=' * 35}\n")
+        file.write(f"\t\t\tThank You\n")
+        file.write(f"{'=' * 35}\n")
+        # ===========================================================================
+        print(f"=" * 35)
+        print(f"\t\t\t\t\t SAlES INVOICE")
+        print(f"\t\tABC ENTERPRISES")
+        print(f"\t\t\t\tDate: ", date)
+        print(f"\t\t\t\tTime: ", time)
         print(f"=" * 35)
 
-        print("Total Amount: ")
+        print(f"Customer Name: {customer_name} ")
+        print(f"Laptop Name: {order1} ")
+        print(f"Brand Name: {brand_name} ")
+        print(f"quantity: {quantity}")
+        print(f"=" * 35)
+
+        print(f"Total Amount :{price} ")
+        s = 200
+        print(f"Shipping Amount: {s}")
+        print(f"=" * 35)
+        d = price + s
+        print(f"Total Amount: {d}")
 
         print(f"{'=' * 35}\n")
         print(f"\t\t\tThank You!")
@@ -175,11 +236,10 @@ while continue_loop:
 
     if option == "order":
         priceValue = order()
-        print(priceValue)
 
     elif option == "sell":
         # option for selling the laptop
-        sell()
+        price = sell()
 
     else:
         # if except of buy/sell other input is taken.
@@ -189,8 +249,11 @@ while continue_loop:
             print("Sorry Admin! Option not available!")
 
     ch = input("Do you want to continue(yes/no)?").lower()
-    if ch == "no":
-        continue_loop = False
+    if ch == "yes":
+        price, order1, brand_name, customer_name, quantity = sell()
+        sales_invoice(order1, brand_name, customer_name, quantity, price)
 
-    priceValue, order1, brand_name, customer_name, quantity = sell()
-    sales_invoice(order1, brand_name, customer_name, quantity, priceValue)
+        # ----------------------------------------------
+        price, order1, brand_name, customer_name, quantity = order()
+        order_invoice(order1, brand_name, customer_name, quantity, price)
+
