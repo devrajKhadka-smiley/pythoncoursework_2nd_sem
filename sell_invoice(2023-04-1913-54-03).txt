@@ -1,0 +1,19 @@
+===================================
+					 SAlES INVOICE
+		ABC ENTERPRISES
+				Date: 2023-04-19
+				Time:13-54-03
+===================================
+Customer Name: Sfsdkfjdskfkldsfjklsdjfklsdjfklsdjklfsjdlfsklfjlskdfjklsdjflsfjl
+Laptop Name: xps 
+Brand Name: dell
+quantity: 3
+===================================
+Total Amount : 
+Vat Amount: 
+Shipping Amount: 
+===================================
+Total Amount: 
+===================================
+			Thank You
+===================================

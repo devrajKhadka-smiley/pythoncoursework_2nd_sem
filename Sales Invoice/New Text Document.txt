@@ -1,0 +1,20 @@
+========================================
+                           Sales Invoice
+            ABC ENTERPRISES
+                          Date:
+                          Time:
+========================================
+Customer Name:
+Laptop Name:
+Brand Name:
+========================================
+Name                Price
+========================================
+
+
+Total Price
+Total Amount
+Total sales
+Shipping Cost
+========================================
+Total
