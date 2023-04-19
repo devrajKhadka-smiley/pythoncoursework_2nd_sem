@@ -1,9 +1,8 @@
 import datetime
-
 x = datetime.datetime.now()
 
 # welcome to the store message
-print(f"{'-' * 100}\n{' ' * 35}WELCOME TO ABC ENTREPRISES\n{'-' * 100}\n")
+print(f"{'-' * 100}\n{' ' * 35}WELCOME TO ABC ENTERPRISES\n{'-' * 100}\n")
 print("Kamal Pokhari, kathmandu, Nepal \t\t\t\t\t\t\t\t\t\t\t Phone: +977 9821526347")
 print(f"{'-' * 100}\n{' ' * 35}Have a Great Day ! Admin\n{'-' * 100}\n")
 
@@ -11,11 +10,6 @@ print("\t\t Type 'Order' to order the laptop from the manufacturer!")
 print("\t\t Type 'Sell' to sell the laptop from our stock.")
 print("Type '3' to exit the system")
 
-
-# user input function for sale and buy
-# update stock function,2 for sales and buy
-# invoice generation function
-# define the function of buying section
 def display():
     file = open("stock.txt", "r")
     print(f"{'=' * 100}\n{' ' * 35}ABC ENTERPRISES STOCK\n{'=' * 100}\n")
@@ -49,11 +43,12 @@ def order():
     quantity = int(input("Enter the quantity: "))
     while quantity <= 0:
         print("Enter a valid quantity")
-        quantity = int(input("Enter the number of laptops you want to sell"))
+        quantity = int(input("Enter the number of laptops you want to order"))
 
     for i in range(len(temp)):
         for j in range(len(temp[i])):
             if order1 == temp[i][0].lower():
+                brand_name = temp[i][2]
                 temp[i][3] = str(int(temp[i][3]) + quantity)
                 price = int(temp[i][2]) * quantity
                 c = 1
@@ -69,7 +64,7 @@ def order():
                     file.write(",")
             file.write("\n")
 
-    return price
+    return order1, brand_name, quantity, price
 
 
 def sell():
@@ -80,7 +75,6 @@ def sell():
     brand_name = input("name of the laptop brand").lower()
     customer_name = input("enter the name of the customer").capitalize()
 
-    # quantity = int(input("How many laptop you want to sell? "))
     while True:
         try:
             quantity = int(input("How many laptop you want to sell? "))
@@ -99,7 +93,7 @@ def sell():
             temp[i][3] = str(int(temp[i][3]) - quantity)
             price = int(temp[i][2].replace("$", "")) * quantity
             c = 1
-            sales_invoice(order1, brand_name, customer_name, quantity, price)
+            # sales_invoice(order1, brand_name, customer_name, quantity, price)
             break
     if c == 0:
         print("item is not available")
@@ -117,7 +111,7 @@ def sell():
 def sales_invoice(order1, brand_name, customer_name, quantity, price):
     date = x.strftime("%Y-%m-%d")
     time = x.strftime("%H-%M-%S")
-    _ = open(f"sell_invoice({date}{time}).txt", 'x')
+    # _ = open(f"sell_invoice({date}{time}).txt", 'x')
 
     with open(f"sell_Invoice({date}{time}).txt", 'w') as file:
         file.write(f"{'=' * 35}\n")
@@ -171,9 +165,10 @@ def sales_invoice(order1, brand_name, customer_name, quantity, price):
         print(f"{'=' * 35}\n")
 
 
-def order_invoice(order1, brand_name, customer_name, quantity, price):
+def order_invoice(order1, brand_name, quantity, price):
     date = x.strftime("%Y-%m-%d")
     time = x.strftime("%H-%M-%S")
+    distributer_Name = "Hamro Electronic Store"
     _ = open(f"Order_Invoice({date}{time}).txt", 'x')
 
     with open(f"Order_Invoice({date}{time}).txt", 'w') as file:
@@ -184,7 +179,7 @@ def order_invoice(order1, brand_name, customer_name, quantity, price):
         file.write(f"\t\t\t\tTime:{time}\n")
         file.write(f"{'=' * 35}\n")
 
-        file.write(f"Distributer Name: {customer_name}\n")
+        file.write(f"Distributer Name: {distributer_Name}\n")
         file.write(f"Laptop Name: {order1} \n")
         file.write(f"Brand Name: {brand_name}\n")
         file.write(f"quantity: {quantity}\n")
@@ -210,7 +205,7 @@ def order_invoice(order1, brand_name, customer_name, quantity, price):
         print(f"\t\t\t\tTime: ", time)
         print(f"=" * 35)
 
-        print(f"Customer Name: {customer_name} ")
+        print(f"Distributer Name: {distributer_Name} ")
         print(f"Laptop Name: {order1} ")
         print(f"Brand Name: {brand_name} ")
         print(f"quantity: {quantity}")
@@ -235,25 +230,25 @@ while continue_loop:
     option = input("Do you want to order/sell laptop? ").lower()
 
     if option == "order":
-        priceValue = order()
+        # priceValue = order()
+        order1, brand_name, quantity, price = order()
+        order_invoice(order1, brand_name, quantity, price)
 
     elif option == "sell":
         # option for selling the laptop
-        price = sell()
+        order1, brand_name, customer_name, quantity, price = sell()
+        sales_invoice(order1, brand_name, customer_name, quantity, price)
+
 
     else:
         # if except of buy/sell other input is taken.
-        if option == "3":
+        if option == "3" or "exit":
             quit()
         else:
             print("Sorry Admin! Option not available!")
 
     ch = input("Do you want to continue(yes/no)?").lower()
-    if ch == "yes":
-        price, order1, brand_name, customer_name, quantity = sell()
-        sales_invoice(order1, brand_name, customer_name, quantity, price)
+    if ch != "yes":
+        option = input("Do you want to order/sell/exit laptop? ").lower()
 
-        # ----------------------------------------------
-        price, order1, brand_name, customer_name, quantity = order()
-        order_invoice(order1, brand_name, customer_name, quantity, price)
 
